@@ -1,10 +1,10 @@
+// src/pages/ManageProperties/ManageProperties.tsx
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../../components/Header/Header.tsx";
 import "./ManageProperties.css";
 import detailBackground from "../../assets/detail_background.jpg";
-
 
 // 행정구역 코드 관련 유틸 및 인터페이스 import
 import {
@@ -15,6 +15,9 @@ import {
   SggCode,
   EmdCode,
 } from "../../utils/codeUtil.ts";
+
+// 재사용 모달 컴포넌트 import
+import SaveEditModal from "../../utils/SaveEditModal.tsx";
 
 interface HomeVO {
   id?: number;
@@ -27,6 +30,7 @@ interface HomeVO {
 }
 
 const ManageProperties: React.FC = () => {
+  // 기본 상태 변수들
   const [propertyList, setPropertyList] = useState<HomeVO[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -47,7 +51,7 @@ const ManageProperties: React.FC = () => {
   // 모달 열림/닫힘 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 등록 폼 필드
+  // 등록 폼 필드 상태
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("0");
   const [description, setDescription] = useState("");
@@ -109,7 +113,6 @@ const ManageProperties: React.FC = () => {
 
   // 검색 수행 (제목 및 행정구역 조건 포함)
   const handleSearch = () => {
-    // 조건이 없으면 전체 조회
     if (
       searchQuery.trim() === "" &&
       selectedSd === "" &&
@@ -120,9 +123,7 @@ const ManageProperties: React.FC = () => {
       return;
     }
     setLoading(true);
-    // 기본 제목 검색 조건
     let query = `?title=${encodeURIComponent(searchQuery)}`;
-    // 행정구역 조건 추가
     if (selectedSd) query += `&sdCd=${encodeURIComponent(selectedSd)}`;
     if (selectedSgg) query += `&sggCd=${encodeURIComponent(selectedSgg)}`;
     if (selectedEmd) query += `&emdCd=${encodeURIComponent(selectedEmd)}`;
@@ -248,7 +249,6 @@ const ManageProperties: React.FC = () => {
         </div>
         {/* 행정구역 콤보박스 영역 */}
         <div className="search-comboboxes">
-          {/* 시도 선택 */}
           <select
             value={selectedSd}
             onChange={(e) => {
@@ -264,7 +264,6 @@ const ManageProperties: React.FC = () => {
               </option>
             ))}
           </select>
-          {/* 시군구 선택 (시도 선택 후 활성화) */}
           <select
             value={selectedSgg}
             onChange={(e) => {
@@ -282,7 +281,6 @@ const ManageProperties: React.FC = () => {
                 </option>
               ))}
           </select>
-          {/* 읍면동 선택 (시군구 선택 후 활성화) */}
           <select
             value={selectedEmd}
             onChange={(e) => setSelectedEmd(e.target.value)}
@@ -298,7 +296,7 @@ const ManageProperties: React.FC = () => {
               ))}
           </select>
         </div>
-        {/* 검색 바 (제목 입력 및 검색 버튼) */}
+        {/* 검색 바 */}
         <div className="search-bar">
           <input
             ref={searchInputRef}
@@ -310,7 +308,7 @@ const ManageProperties: React.FC = () => {
           />
           <button onClick={handleSearch}>검색</button>
         </div>
-        {/* 매물 목록 표시 */}
+        {/* 매물 목록 */}
         <div
           className="table-container"
           style={{ opacity: loading ? 0.5 : 1, transition: "opacity 0.5s ease" }}
@@ -334,7 +332,6 @@ const ManageProperties: React.FC = () => {
                   key={home.id}
                   onClick={() => {
                     if (home.id) {
-                      // 상세 페이지로 이동 시 현재 검색 상태와 결과를 함께 전달
                       navigate(`/property/${home.id}`, {
                         state: { searchQuery, propertyList },
                       });
@@ -363,80 +360,74 @@ const ManageProperties: React.FC = () => {
             </table>
           )}
         </div>
-        {/* 등록 모달 */}
-        {isModalOpen && (
-          <div className="modal">
-            <div className="modal-content">
-              <button className="close-btn" onClick={closeModal}>
-                ×
-              </button>
-              <h3>매물 등록</h3>
-              <div className="modal-form">
-                <div className="form-group">
-                  <label>제목</label>
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>가격</label>
-                  <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>위치</label>
-                  <input
-                    type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>설명</label>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  ></textarea>
-                </div>
-                <div className="form-group">
-                  <label>대표 이미지</label>
-                  <input type="file" onChange={handleMainImageChange} />
-                  {mainImagePreview && (
+
+        {/* 공통 모달 컴포넌트 사용 */}
+        <SaveEditModal isOpen={isModalOpen} onClose={closeModal}>
+          <h3>매물 등록</h3>
+          <div className="modal-form">
+            <div className="form-group">
+              <label>제목</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>가격</label>
+              <input
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>위치</label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>설명</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label>대표 이미지</label>
+              <input type="file" onChange={handleMainImageChange} />
+              {mainImagePreview && (
+                <img
+                  src={mainImagePreview}
+                  alt="대표미리보기"
+                  className="preview-image"
+                />
+              )}
+            </div>
+            <div className="form-group">
+              <label>추가 이미지</label>
+              <input type="file" multiple onChange={handleImagesChange} />
+              {imagesPreview.length > 0 && (
+                <div className="images-preview-container">
+                  {imagesPreview.map((url, i) => (
                     <img
-                      src={mainImagePreview}
-                      alt="대표미리보기"
+                      key={i}
+                      src={url}
+                      alt={`미리보기-${i}`}
                       className="preview-image"
                     />
-                  )}
+                  ))}
                 </div>
-                <div className="form-group">
-                  <label>추가 이미지</label>
-                  <input type="file" multiple onChange={handleImagesChange} />
-                  {imagesPreview.length > 0 && (
-                    <div className="images-preview-container">
-                      {imagesPreview.map((url, i) => (
-                        <img
-                          key={i}
-                          src={url}
-                          alt={`미리보기-${i}`}
-                          className="preview-image"
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <button className="create-btn" onClick={handleCreate}>
-                  등록
-                </button>
-              </div>
+              )}
             </div>
+            <button className="create-btn" onClick={handleCreate}>
+              등록
+            </button>
           </div>
-        )}
+        </SaveEditModal>
       </div>
     </div>
   );
