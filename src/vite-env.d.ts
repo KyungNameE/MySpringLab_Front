@@ -7,7 +7,10 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
         rewrite: (path) => path,
-      }
-    }
-  }
+      },
+    },
+    hmr: {
+      overlay: false, // ✅ Vite의 HMR 오류 메시지 비활성화
+    },
+  },
 });

@@ -1,0 +1,274 @@
+/* src/ManageProperties.css */
+
+/* 전체 컨테이너 (배경 + 내용) */
+.manage-detail-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: "Poppins", sans-serif;
+}
+
+/* 배경 */
+.detail-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.85;
+}
+
+/* 가운데 박스 */
+.manage-box {
+    margin: 100px auto;
+    max-width: 900px;
+    padding: 30px;
+    background: linear-gradient(145deg, #ffffff, #f7f7f7);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 10;
+}
+
+/* 헤더 영역: 제목은 가운데 정렬, 등록 버튼은 오른쪽 끝에 위치 */
+.manage-box-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.manage-box-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+}
+.manage-box-header .open-modal-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(145deg, #004080, #002d5a);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.manage-box-header .open-modal-btn:hover {
+    background: linear-gradient(145deg, #002d5a, #001a3d);
+    transform: scale(1.05);
+}
+
+/* --- 검색 조건 영역 --- */
+
+/* 시도, 시군구, 읍면동 콤보박스 영역 (메인 페이지와 동일) */
+.search-comboboxes {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.search-comboboxes select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    outline: none;
+}
+
+/* 검색 바 (입력창 + 버튼) */
+.search-bar {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.search-bar input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+}
+.search-bar button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.search-bar button:hover {
+    background-color: #e6b800;
+    transform: scale(1.02);
+}
+
+/* 테이블 스타일 */
+.manage-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: 20px;
+}
+.manage-table thead th {
+    background: #f7f7f7;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 2px solid #ddd;
+}
+.manage-table tbody td {
+    background: #fff;
+    padding: 12px 16px;
+    color: #555;
+}
+.manage-table tbody tr {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.manage-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.table-image {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* --- 모달 레이아웃 --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 80px;
+    box-sizing: border-box;
+}
+.modal-content {
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    text-align: left;
+    transition: transform 0.3s ease-in-out;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #444;
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.3s;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.close-btn:hover {
+    background: #666;
+    transform: scale(1.05);
+}
+
+/* --- 모달 내부 폼 --- */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.95rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.form-group textarea {
+    resize: vertical;
+}
+.images-preview-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+.preview-image {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.create-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(145deg, #004080, #002d5a);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.3s ease-in-out, transform 0.3s;
+}
+.create-btn:hover {
+    background: linear-gradient(145deg, #002d5a, #001a3d);
+    transform: scale(1.04);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .manage-box {
+        margin: 30px auto;
+        padding: 20px;
+    }
+    .modal-content {
+        max-width: 90%;
+    }
+    .close-btn {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}

@@ -1,12 +1,18 @@
-// src/App.tsx
-import React from 'react';
-import RealEstateMain from './components/RealEstateMain';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import RealEstateMain from "./pages/RealEstateMain/RealEstateMain.tsx";
+import PropertyDetail from "./pages/PropertyDetail/PropertyDetail.tsx";
+import ManageProperties from "./pages/ManageProperties/ManageProperties.tsx";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <RealEstateMain />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<RealEstateMain />} />
+        <Route path="/property/:id" element={<PropertyDetail />} />
+        <Route path="/manage" element={<ManageProperties />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

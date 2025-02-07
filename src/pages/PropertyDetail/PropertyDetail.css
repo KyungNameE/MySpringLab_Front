@@ -1,0 +1,309 @@
+/* 전체 컨테이너 + 배경 */
+.property-detail-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: "Poppins", sans-serif;
+}
+.detail-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.85;
+}
+
+/* 내용 박스 */
+.property-detail {
+    margin: 100px auto;
+    max-width: 900px;
+    padding: 30px;
+    background: linear-gradient(145deg, #ffffff, #f7f7f7);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 10;
+}
+
+/* 헤더 영역 */
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.detail-header h2 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+/* 버튼 스타일 (헤더 내 목록, 삭제 버튼) */
+.back-btn,
+.delete-property-btn {
+    background: #fff;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 8px 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+.back-btn:hover {
+    background: #f2f2f2;
+    transform: scale(1.05);
+}
+.delete-property-btn {
+    background: #ff6666;
+    color: white;
+}
+.delete-property-btn:hover {
+    background: #ff3333;
+    transform: scale(1.05);
+}
+
+/* 스와이퍼 영역 */
+.property-swiper {
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Swiper 래퍼와 슬라이드의 flex 설정 */
+.property-swiper .swiper-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.property-swiper .swiper-slide {
+    flex-shrink: 0;
+}
+
+/* 슬라이드 내 이미지: 부모 너비에 맞추어 자동 조절 */
+.property-swiper img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+}
+.property-swiper img:hover {
+    transform: scale(1.02);
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달(이미지 확대) */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;    /* 세로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    z-index: 2000;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 85%;
+    max-height: 85%;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+.modal-swiper {
+    width: 100%;
+    height: 550px;
+}
+.modal-swiper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* 모달 닫기 버튼 */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #004080;
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: background 0.3s ease-in-out, transform 0.3s;
+}
+.close-btn:hover {
+    background: #002d5a;
+    transform: scale(1.05);
+}
+
+/* 수정 폼 - 기존 백그라운드와 조화를 이루는 frosted glass 효과 */
+.property-form {
+    background: rgba(255, 255, 255, 0.6); /* 반투명 배경 */
+    backdrop-filter: blur(10px);         /* 배경 흐림 효과 */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: left;
+}
+.property-form label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    color: #004080; /* 블루 포인트 컬러 */
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.property-form input,
+.property-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    background: #fff;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.property-form input:focus,
+.property-form textarea:focus {
+    border-color: #004080;
+    box-shadow: 0 4px 12px rgba(0, 64, 128, 0.15);
+    outline: none;
+}
+.property-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+.property-form button {
+    margin-top: 25px;
+    padding: 14px 24px;
+    background: linear-gradient(145deg, #004080, #002d5a);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+.property-form button:hover {
+    background: linear-gradient(145deg, #002d5a, #001a3d);
+    transform: scale(1.05);
+}
+
+/* 이미지 목록 */
+.image-list {
+    margin-top: 20px;
+    text-align: left;
+}
+.image-list h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+.main-image-section,
+.additional-images-section {
+    margin-bottom: 20px;
+}
+.image-wrapper {
+    margin-top: 10px;
+}
+.image-wrapper img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.additional-images-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 10px;
+}
+.additional-image-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.additional-image-item img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.additional-image-buttons {
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
+}
+.additional-image-buttons button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background-color: #fafafa;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.additional-image-buttons button:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .property-detail {
+        margin: 30px auto;
+        padding: 20px;
+    }
+    .property-swiper img {
+        height: 160px;
+    }
+    .modal-swiper {
+        height: 400px;
+    }
+    .close-btn {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
